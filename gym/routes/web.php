@@ -4,26 +4,17 @@ use App\Http\Controllers\MemberController;
 use Illuminate\Support\Facades\Route;
 
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return view('index');
 });
 
 
-Route::middleware('auth')->group(function () {
+Route::get('/members', [MemberController::class, 'index'])->name('members.index');
+Route::get('/members/create', [MemberController::class, 'create'])->name('members.create');
+Route::post('/members', [MemberController::class, 'store'])->name('members.store');
+Route::get('/members/{id}/edit', [MemberController::class, 'edit'])->name('members.edit');
+Route::put('/members/{id}', [MemberController::class, 'update'])->name('members.update');
+Route::delete('/members/{id}', [MemberController::class, 'destroy'])->name('members.destroy');
 
-    Route::get('/members', [MemberController::class, 'edit'])->name('members.edit');
-    Route::patch('/members', [MemberController::class, 'show'])->name('members.show');
-    Route::delete('/members', [MemberController::class, 'destroy'])->name('members.destroy');
-});
-
+Route::resource('members', MemberController::class);
